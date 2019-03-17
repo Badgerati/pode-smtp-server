@@ -1,0 +1,32 @@
+{
+    "server": {
+        "fileMonitor": {
+            "enable": true,
+            "exclude": [
+                "data/*",
+                "logs/*",
+                "views/*",
+                "public/*"
+            ]
+        }
+    },
+    "web": {
+        "title": "Pode SMTP Server",
+        "port": 8025,
+        "static": {
+            "cache": {
+                "enable": true
+            }
+        },
+        "errorPages": {
+            "showExceptions": true
+        }
+    },
+    "smtp": {
+        "port": 25,
+        "purge": {
+            "enable": true,
+            "ttl": 120
+        }
+    }
+}

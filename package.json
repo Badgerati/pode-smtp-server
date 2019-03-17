@@ -1,0 +1,21 @@
+{
+    "name": "pode-smtp-server",
+    "description": "",
+    "version": "1.0.0",
+    "main": "./smtp-server.ps1",
+    "scripts": {
+        "start": "./smtp-server.ps1",
+        "build": "invoke-build assets",
+        "install":  "yarn install --force --no-lockfile --ignore-scripts --modules-folder pode_modules"
+    },
+    "modules": {
+        "SimplySql": "1.5.9"
+    },
+    "dependencies": {
+        "bootstrap": "4.2.1",
+        "jquery": "3.3.1",
+        "popper.js": "1.12.9"
+    },
+    "author": "Matthew Kelly (Badgerati)",
+    "license": "MIT"
+}

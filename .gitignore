@@ -1,0 +1,7 @@
+[Dd]ata/
+[Ll]ogs/
+pode_modules/
+ps_modules/
+*.min*
+*.lock
+.sonarlint/

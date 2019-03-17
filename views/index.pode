@@ -1,0 +1,106 @@
+<html>
+
+    <head>
+        <title>$($data.title)</title>
+        <link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <link href="/css/core.css" rel="stylesheet" type="text/css">
+        <script src="/js/core.js"></script>
+    </head>
+
+    <body>
+
+        <!-- a quick header bar -->
+        <nav class="navbar header-top fixed-top navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">
+                <img src="images/icon.png" id="nav-icon" />
+            </a>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <h5 id="welcome-msg">$($data.title)</h5>
+            </div>
+        </nav>
+
+        <!-- list of emails -->
+        <div class="content-wrapper">
+
+            <div id="form-content" class="form-padded">
+                <div class='container'>
+                    <table class='table websites' data-server='$_' cellspacing='0'>
+                        <thead>
+                            <tr>
+                                <th style='width:10%'>Time</th>
+                                <th>Subject</th>
+                                <th>Sender</th>
+                                <th style='width:10%'>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            $((@($data.emails) -ne $null) | Foreach-Object {
+                                "<tr class='row-data' data-email-id='$($_.EmailId)'>
+                                    <td>$(([datetime]::Parse($_.TimeStamp)).ToString('dd MMM, HH:mm'))</td>
+                                    <td>$($_.Subject)</td>
+                                    <td>$($_.Sender)</td>
+                                    <td></td>
+                                </tr>
+                                <tr class='row-meta' data-email-id='$($_.EmailId)'>
+                                    <td colspan='4' class='row-meta-cell'>
+                                        <div class='row-meta-div'>
+                                            <table class='table'>
+                                                <tr>
+                                                    <td style='width:10%'>Headers</td>
+                                                    <td>$($_.Headers)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style='width:10%'>Recipients</td>
+                                                    <td>$($_.Recipients -join ', ')</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Content</td>
+                                                    <td>$($_.Body)</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>"
+                            })
+
+                            $(if ($data.meta.count -eq 0) {
+                                "<tr>
+                                    <td colspan='4' class='no-emails'>
+                                        No emails to display
+                                    </td>
+                                </tr>"
+                            })
+
+                        </tbody>
+                    </table>
+                    <hr/>
+
+                    <div class='pagination-count'>
+                        Page $($data.meta.pages.current) of $($data.meta.pages.total)
+                    </div>
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">«</a></li>
+
+                        $(1..($data.meta.pages.total) | Foreach-Object {
+                            if ($_ -eq $data.meta.pages.current) {
+                                "<li class='page-item active'><a class='page-link' href='?limit=$($data.meta.limit)&page=$($_)'>$_</a></li>"
+                            }
+                            else {
+                                "<li class='page-item'><a class='page-link' href='?limit=$($data.meta.limit)&page=$($_)'>$_</a></li>"
+                            }
+                        })
+
+                        <li class="page-item"><a class="page-link" href="#">»</a></li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+
+</html>
