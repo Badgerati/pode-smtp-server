@@ -5,6 +5,10 @@ if ([string]::IsNullOrEmpty((Get-Command nssm -ErrorAction ignore))) {
     choco install nssm --version '2.24.101.20180116' -y
 }
 
+if ([string]::IsNullOrEmpty((Get-Command node -ErrorAction ignore))) {
+    choco install nodejs.install -y
+}
+
 if ([string]::IsNullOrEmpty((Get-Command yarn -ErrorAction ignore))) {
     choco install yarn --version '1.15.2' -y
 }
@@ -12,6 +16,10 @@ if ([string]::IsNullOrEmpty((Get-Command yarn -ErrorAction ignore))) {
 if ([string]::IsNullOrEmpty((Get-Module InvokeBuild -ErrorAction Ignore))) {
     Install-Module InvokeBuild -RequiredVersion '5.4.1'
 }
+
+
+# reset the path env-var
+$env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine')
 
 
 # install and build dependencies
